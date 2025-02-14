@@ -21,7 +21,7 @@ jobs:
 
             - name: Deploy to Server
               run: |
-                ssh -o StrictHostKeyChecking=no devm@{{ secrets.SERVER_IP }} << 'EOF'
+                ssh -o StrictHostKeyChecking=no devm@${{ secrets.SERVER_IP }} << 'EOF'
 
                 #Ensure app is cloned
                 if [ ! -d "/fastapi-book-project" ]; then
