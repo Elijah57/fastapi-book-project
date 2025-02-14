@@ -36,15 +36,15 @@ jobs:
                 git pull origin main
 
                 # Build and run project in a container
+                sudo docker rm -f fastapi-app || true
                 sudo docker build -t fastapi-app .
-                sudo docker stop fastapi-app || true
-                sudo docker rm fastapi-app || true
+                # sudo docker stop fastapi-app || true
                 sudo docker run -d --name fastapi-app -p 8000:8000 fastapi-app
                 
                 
                 # Set up Nginx configuration
-                echo "🔧 Setting up nginx configurations"
-                sudo cat <<NGINX_CONF > /etc/nginx/sites-available/fastapi.conf
+                echo "🔧 Setting up Nginx configuration..."
+                sudo tee /etc/nginx/sites-available/fastapi.conf > /dev/null <<EOF
                 server {
                     listen 80;
                     server_name ${{ secrets.SERVER_IP }};
@@ -57,7 +57,8 @@ jobs:
                         proxy_set_header X-Forwarded-Proto \$scheme;
                     }
                 }
-                NGINX_CONF
+                EOF
+
 
                 sudo ln -sf /etc/nginx/sites-available/fastapi.conf /etc/nginx/sites-enabled/
                 sudo systemctl restart nginx
