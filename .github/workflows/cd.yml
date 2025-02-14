@@ -24,12 +24,12 @@ jobs:
                 ssh -o StrictHostKeyChecking=no devm@${{ secrets.SERVER_IP }} << 'EOF'
 
                 # Ensure required packages are installed
-                apt-get update
-                apt-get install -y git docker.io nginx
+                #apt-get update
+                #apt-get install -y git docker.io nginx
                 
                 #Ensure app is cloned
                 if [ ! -d "/fastapi-book-project" ]; then
-                    git clone git@github.com:Elijah57/fastapi-book-project.git
+                    git clone https://github.com/Elijah57/fastapi-book-project.git
                 fi
                 
                 cd /fastapi-book-project
